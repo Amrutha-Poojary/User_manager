@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>User Management System</h1>
+
+        <div class="actions">
+            <input type="text" id="search" placeholder="Search by name or email..." oninput="filterUsers()">
+            <button onclick="addRandomUser()">Add Random User</button>
+        </div>
+
+        <div class="form">
+            <input type="text" id="name" placeholder="Enter name">
+            <input type="email" id="email" placeholder="Enter email">
+            <button onclick="addUser()">Add User</button>
+        </div>
+
+        <div id="userList" class="card-container"></div>
+    </div>
+
+    <script>
+        let users = [];
+
+        async function loadUsers() {
+            const res = await fetch('/api/users');
+            users = await res.json();
+            displayUsers(users);
+        }
+
+        function displayUsers(users) {
+            const container = document.getElementById('userList');
+            container.innerHTML = '';
+
+            users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                card.innerHTML = `
+                    <h3>${user.name}</h3>
+                    <p>Email: ${user.email}</p>
+                    <p>Status: <span class="${user.status === 'active' ? 'active' : 'inactive'}">${user.status}</span></p>
+                    <p>Joined: ${user.join_date}</p>
+                    <div class="card-buttons">
+                        <button onclick="toggleStatus(${user.id})">Toggle Status</button>
+                        <button onclick="deleteUser(${user.id})">Delete</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        async function addUser() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !email) return alert("Both fields are required");
+
+            await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email })
+            });
+
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            loadUsers();
+        }
+
+        async function addRandomUser() {
+            await fetch('/api/users/random', { method: 'POST' });
+            loadUsers();
+        }
+
+        async function deleteUser(id) {
+            await fetch(`/api/users/${id}`, { method: 'DELETE' });
+            loadUsers();
+        }
+
+        async function toggleStatus(id) {
+            await fetch(`/api/users/${id}/toggle`, { method: 'PUT' });
+            loadUsers();
+        }
+
+        function filterUsers() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filtered = users.filter(user =>
+                user.name.toLowerCase().includes(query) ||
+                user.email.toLowerCase().includes(query)
+            );
+            displayUsers(filtered);
+        }
+
+        window.onload = loadUsers;
+    </script>
+</body>
+</html>
