@@ -1,4 +1,4 @@
-# 🧑‍💼 User Manager Web App with REST API
+#  User Manager Web App with REST API ✨
 
 A Flask-based web application with a modern and interactive UI for managing users. This app allows you to perform operations such as creating, viewing, updating, deleting, searching, toggling status, and generating random users. It includes real-time stats and user-friendly animations.
 
