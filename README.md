@@ -2,8 +2,6 @@
 
 A Flask-based web application with a modern and interactive UI for managing users. This app allows you to perform operations such as creating, viewing, updating, deleting, searching, toggling status, and generating random users. It includes real-time stats and user-friendly animations.
 
----
-
 ## ✨ Features
 
 - ✅ Add, update, and delete users
@@ -14,8 +12,6 @@ A Flask-based web application with a modern and interactive UI for managing user
 - 📊 Real-time dashboard stats
 - 💅 Responsive and attractive frontend UI
 
----
-
 ## 🛠 Tech Stack
 
 | Layer       | Technology    |
@@ -25,20 +21,24 @@ A Flask-based web application with a modern and interactive UI for managing user
 | Styling     | Pure CSS      |
 | API Testing | Postman/Curl  |
 
----
 
 ## 📁 Folder Structure
 
 user_api_with_ai/
+
 ├── app.py # Flask backend
+
 ├── requirements.txt # Python packages
+
 ├── templates/
+
 │ └── index.html # Frontend layout
+
 ├── static/
+
 │ └── style.css # Styling for UI
 
 
----
 
 ## 🚀 How to Run the App
 
@@ -50,9 +50,9 @@ user_api_with_ai/
 
 2. ### Install Required Packages
 
-    pip install -r requirements.txt
+        pip install -r requirements.txt
 
 3. ### Run the Flask Server
 
-    python app.py
+        python app.py
 
